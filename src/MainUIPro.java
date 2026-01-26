@@ -23,6 +23,20 @@ public class MainUIPro {
     private JTextField customerPhoneField;
     private JTextField customerRoomField;
 
+    // Buttons for dynamic text
+    private JButton addRoomButton;
+    private JButton addCustomerButton;
+
+    // Update mode flags
+    @SuppressWarnings("unused")
+    private boolean isUpdatingRoom = false;
+    @SuppressWarnings("unused")
+    private String updatingRoomId = null;
+    @SuppressWarnings("unused")
+    private boolean isUpdatingCustomer = false;
+    @SuppressWarnings("unused")
+    private String updatingCustomerId = null;
+
     public MainUIPro() {
         // Set system look and feel for a more professional appearance
         try {
@@ -47,7 +61,7 @@ public class MainUIPro {
         roomPanel.setBorder(BorderFactory.createTitledBorder("Rooms"));
         roomPanel.setBackground(new Color(240, 248, 255)); // Light blue background
 
-        roomModel = new DefaultTableModel(new Object[]{"ID", "Number", "Type", "Price"}, 0);
+        roomModel = new DefaultTableModel(new Object[] { "ID", "Number", "Type", "Price" }, 0);
         roomTable = new JTable(roomModel);
         roomTable.setFillsViewportHeight(true);
         roomTable.getTableHeader().setReorderingAllowed(false);
@@ -61,8 +75,10 @@ public class MainUIPro {
         // Room buttons panel
         JPanel roomButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         JButton deleteRoom = createSmallButton("Delete Room", new Color(255, 99, 71)); // Tomato red
+        JButton updateRoom = createSmallButton("Update Room", new Color(255, 165, 0)); // Orange
         JButton refreshRooms = createSmallButton("Refresh", new Color(60, 179, 113)); // Green
         roomButtonsPanel.add(deleteRoom);
+        roomButtonsPanel.add(updateRoom);
         roomButtonsPanel.add(refreshRooms);
         roomButtonsPanel.setBackground(new Color(240, 248, 255)); // Match room panel
 
@@ -76,13 +92,34 @@ public class MainUIPro {
             int selected = roomTable.getSelectedRow();
             if (selected >= 0) {
                 String id = roomModel.getValueAt(selected, 0).toString();
-                int confirm = JOptionPane.showConfirmDialog(frame, "Delete room " + id + "?", "Confirm Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                int confirm = JOptionPane.showConfirmDialog(frame, "Delete room " + id + "?", "Confirm Deletion",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (confirm == JOptionPane.YES_OPTION) {
                     roomService.deleteRoom(id);
                     refreshRoomTable();
                 }
             } else {
-                JOptionPane.showMessageDialog(frame, "Please select a room first.", "Selection Required", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Please select a room first.", "Selection Required",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        updateRoom.addActionListener(e -> {
+            int selected = roomTable.getSelectedRow();
+            if (selected >= 0) {
+                String id = roomModel.getValueAt(selected, 0).toString();
+                Room room = roomService.rooms.stream().filter(r -> r.id.equals(id)).findFirst().orElse(null);
+                if (room != null) {
+                    roomNumberField.setText(room.roomNumber);
+                    roomTypeField.setText(room.type);
+                    roomPriceField.setText(String.valueOf(room.price));
+                    addRoomButton.setText("Update Room");
+                    isUpdatingRoom = true;
+                    updatingRoomId = id;
+                }
+            } else {
+                JOptionPane.showMessageDialog(frame, "Please select a room first.", "Selection Required",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -93,7 +130,7 @@ public class MainUIPro {
         customerPanel.setBorder(BorderFactory.createTitledBorder("Customers"));
         customerPanel.setBackground(new Color(245, 255, 250)); // Light mint green
 
-        customerModel = new DefaultTableModel(new Object[]{"ID", "Name", "Phone", "Room"}, 0);
+        customerModel = new DefaultTableModel(new Object[] { "ID", "Name", "Phone", "Room" }, 0);
         customerTable = new JTable(customerModel);
         customerTable.setFillsViewportHeight(true);
         customerTable.getTableHeader().setReorderingAllowed(false);
@@ -107,8 +144,10 @@ public class MainUIPro {
         // Customer buttons panel
         JPanel customerButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         JButton removeCustomer = createSmallButton("Remove Customer", new Color(255, 99, 71)); // Tomato red
+        JButton updateCustomer = createSmallButton("Update Customer", new Color(255, 165, 0)); // Orange
         JButton refreshCustomers = createSmallButton("Refresh", new Color(60, 179, 113)); // Green
         customerButtonsPanel.add(removeCustomer);
+        customerButtonsPanel.add(updateCustomer);
         customerButtonsPanel.add(refreshCustomers);
         customerButtonsPanel.setBackground(new Color(245, 255, 250)); // Match customer panel
 
@@ -122,13 +161,35 @@ public class MainUIPro {
             int selected = customerTable.getSelectedRow();
             if (selected >= 0) {
                 String id = customerModel.getValueAt(selected, 0).toString();
-                int confirm = JOptionPane.showConfirmDialog(frame, "Remove customer " + id + "?", "Confirm Removal", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                int confirm = JOptionPane.showConfirmDialog(frame, "Remove customer " + id + "?", "Confirm Removal",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                 if (confirm == JOptionPane.YES_OPTION) {
                     customerService.removeCustomer(id);
                     refreshCustomerTable();
                 }
             } else {
-                JOptionPane.showMessageDialog(frame, "Please select a customer first.", "Selection Required", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Please select a customer first.", "Selection Required",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        updateCustomer.addActionListener(e -> {
+            int selected = customerTable.getSelectedRow();
+            if (selected >= 0) {
+                String id = customerModel.getValueAt(selected, 0).toString();
+                Customer customer = customerService.customers.stream().filter(c -> c.id.equals(id)).findFirst()
+                        .orElse(null);
+                if (customer != null) {
+                    customerNameField.setText(customer.name);
+                    customerPhoneField.setText(customer.phone);
+                    customerRoomField.setText(customer.roomNumber);
+                    addCustomerButton.setText("Update Customer");
+                    isUpdatingCustomer = true;
+                    updatingCustomerId = id;
+                }
+            } else {
+                JOptionPane.showMessageDialog(frame, "Please select a customer first.", "Selection Required",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -177,7 +238,7 @@ public class MainUIPro {
         gbc.gridx = 1;
         formPanel.add(roomPriceField, gbc);
 
-        JButton addRoomButton = createSmallButton("Add Room", new Color(30, 144, 255)); // Blue
+        addRoomButton = createSmallButton("Add Room", new Color(30, 144, 255)); // Blue
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
@@ -198,7 +259,8 @@ public class MainUIPro {
                     refreshRoomTable();
                     clearRoomFields();
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Please fill all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Please fill all fields.", "Input Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(frame, "Invalid price format.", "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -239,27 +301,43 @@ public class MainUIPro {
         gbc.gridx = 1;
         formPanel.add(customerRoomField, gbc);
 
-        JButton checkInButton = createSmallButton("Check-in", new Color(30, 144, 255)); // Blue
+        addCustomerButton = createSmallButton("Check-in", new Color(30, 144, 255)); // Blue
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        formPanel.add(checkInButton, gbc);
+        formPanel.add(addCustomerButton, gbc);
 
-        checkInButton.addActionListener(e -> {
+        addCustomerButton.addActionListener(e -> {
             String name = customerNameField.getText().trim();
             String phone = customerPhoneField.getText().trim();
             String room = customerRoomField.getText().trim();
             if (!name.isEmpty() && !phone.isEmpty() && !room.isEmpty()) {
-                // Assuming Customer class has constructor Customer(id, name, phone, roomNumber)
-                // and CustomerService has addCustomer(Customer customer)
-                String id = generateId(); // Placeholder for ID generation
-                Customer newCustomer = new Customer(id, name, phone, room);
-                customerService.customers.add(newCustomer); // Assuming customers is a list
-                refreshCustomerTable();
-                clearCustomerFields();
+                if (isUpdatingCustomer) {
+                    // Update existing customer
+                    Customer customer = customerService.customers.stream().filter(c -> c.id.equals(updatingCustomerId))
+                            .findFirst().orElse(null);
+                    if (customer != null) {
+                        customer.name = name;
+                        customer.phone = phone;
+                        customer.roomNumber = room;
+                        refreshCustomerTable();
+                        clearCustomerFields();
+                        addCustomerButton.setText("Check-in");
+                        isUpdatingCustomer = false;
+                        updatingCustomerId = null;
+                    }
+                } else {
+                    // Add new customer
+                    String id = generateId(); // Placeholder for ID generation
+                    Customer newCustomer = new Customer(id, name, phone, room);
+                    customerService.customers.add(newCustomer); // Assuming customers is a list
+                    refreshCustomerTable();
+                    clearCustomerFields();
+                }
             } else {
-                JOptionPane.showMessageDialog(frame, "Please fill all fields.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Please fill all fields.", "Input Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -296,14 +374,14 @@ public class MainUIPro {
     private void refreshRoomTable() {
         roomModel.setRowCount(0);
         for (Room r : roomService.rooms) {
-            roomModel.addRow(new Object[]{r.id, r.roomNumber, r.type, r.price});
+            roomModel.addRow(new Object[] { r.id, r.roomNumber, r.type, r.price });
         }
     }
 
     private void refreshCustomerTable() {
         customerModel.setRowCount(0);
         for (Customer c : customerService.customers) {
-            customerModel.addRow(new Object[]{c.id, c.name, c.phone, c.roomNumber});
+            customerModel.addRow(new Object[] { c.id, c.name, c.phone, c.roomNumber });
         }
     }
 
