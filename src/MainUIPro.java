@@ -251,8 +251,7 @@ public class MainUIPro {
                 String type = roomTypeField.getText().trim();
                 double price = Double.parseDouble(roomPriceField.getText().trim());
                 if (!number.isEmpty() && !type.isEmpty()) {
-                    // Assuming Room class has constructor Room(id, number, type, price)
-                    // and RoomService has addRoom(Room room)
+                    
                     String id = generateId(); // Placeholder for ID generation
                     Room newRoom = new Room(id, number, type, price);
                     roomService.rooms.add(newRoom); // Assuming rooms is a list
