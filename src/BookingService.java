@@ -94,6 +94,7 @@ public class BookingService {
         JOptionPane.showMessageDialog(null, "Booking ID not found!");
     }
 
+    // Method to update booking status
     public void updateBookingStatus(String id, String newStatus) {
         for (Booking b : bookings) {
             if (b.id.equals(id)) {
