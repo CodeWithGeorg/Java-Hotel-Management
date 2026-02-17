@@ -61,6 +61,7 @@ public class BookingService {
         JOptionPane.showMessageDialog(null, "Booking created! Total: $" + totalAmount);
     }
 
+    // Method to view all bookings
     public void viewBookings() {
         if (bookings.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No bookings found.");
