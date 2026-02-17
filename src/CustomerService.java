@@ -33,6 +33,7 @@ public class CustomerService {
         customers.removeIf(c -> c.id.equals(id));
     }
 
+    // Method to update customer details
     public void updateCustomer(String id) {
         for (Customer c : customers) {
             if (c.id.equals(id)) {
