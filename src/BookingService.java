@@ -82,6 +82,7 @@ public class BookingService {
         JOptionPane.showMessageDialog(null, sb.toString());
     }
 
+    // Method to cancel a booking
     public void cancelBooking(String id) {
         for (Booking b : bookings) {
             if (b.id.equals(id)) {
