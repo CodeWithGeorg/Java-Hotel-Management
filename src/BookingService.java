@@ -117,6 +117,7 @@ public class BookingService {
         return total;
     }
 
+    // Method to get count of active bookings
     public int getActiveBookingsCount() {
         int count = 0;
         for (Booking b : bookings) {
