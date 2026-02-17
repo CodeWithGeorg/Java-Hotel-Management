@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class BookingService {
+    // List to store all bookings
     ArrayList<Booking> bookings = new ArrayList<>();
     private final RoomService roomService;
     private final CustomerService customerService;
