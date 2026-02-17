@@ -17,6 +17,7 @@ public class RoomService {
         JOptionPane.showMessageDialog(null, "Room added!");
     }
 
+    // Method to view all rooms
     public void viewRooms() {
         StringBuilder sb = new StringBuilder("=== ROOMS ===\n");
         for (Room r : rooms) {
