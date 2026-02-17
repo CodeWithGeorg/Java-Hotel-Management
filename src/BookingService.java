@@ -8,6 +8,7 @@ public class BookingService {
     private final RoomService roomService;
     private final CustomerService customerService;
 
+    // Constructor
     public BookingService(RoomService roomService, CustomerService customerService) {
         this.roomService = roomService;
         this.customerService = customerService;
