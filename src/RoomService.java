@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class RoomService {
+    // List to store all rooms
     ArrayList<Room> rooms = new ArrayList<>();
 
     // Method to add a new room
