@@ -28,6 +28,7 @@ public class RoomService {
         JOptionPane.showMessageDialog(null, sb.toString());
     }
 
+    // Method to delete a room by ID
     public void deleteRoom(String id) {
         rooms.removeIf(r -> r.id.equals(id));
     }
