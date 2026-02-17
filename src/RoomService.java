@@ -33,6 +33,7 @@ public class RoomService {
         rooms.removeIf(r -> r.id.equals(id));
     }
 
+    // Method to update room details
     public void updateRoom(String id) {
         for (Room r : rooms) {
             if (r.id.equals(id)) {
