@@ -1,9 +1,13 @@
 package src;
 
 public class Room {
+    // Unique room identifier
     public String id;
+    // Room number
     public String roomNumber;
+    // Type of room (single, double, suite, etc.)
     public String type;
+    // Price per night
     public double price;
 
     // Constructor to initialize room details
