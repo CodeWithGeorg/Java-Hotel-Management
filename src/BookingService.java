@@ -14,6 +14,7 @@ public class BookingService {
         this.customerService = customerService;
     }
 
+    // Method to create a new booking
     public void createBooking() {
         String customerId = JOptionPane.showInputDialog("Customer ID:");
         String roomId = JOptionPane.showInputDialog("Room ID:");
