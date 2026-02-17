@@ -28,6 +28,7 @@ public class CustomerService {
         JOptionPane.showMessageDialog(null, sb.toString());
     }
 
+    // Method to remove a customer by ID
     public void removeCustomer(String id) {
         customers.removeIf(c -> c.id.equals(id));
     }
