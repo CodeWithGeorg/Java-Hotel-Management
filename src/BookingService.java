@@ -106,6 +106,7 @@ public class BookingService {
         JOptionPane.showMessageDialog(null, "Booking ID not found!");
     }
 
+    // Method to calculate total revenue
     public double getTotalRevenue() {
         double total = 0;
         for (Booking b : bookings) {
