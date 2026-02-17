@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class CustomerService {
+    // List to store all customers
     ArrayList<Customer> customers = new ArrayList<>();
 
     // Method to check in a new customer
