@@ -11,6 +11,7 @@ public class Booking {
     public double totalAmount;
     public String status; // "Confirmed", "Checked-in", "Completed", "Cancelled"
 
+    // Constructor to initialize booking details
     public Booking(String id, String customerId, String roomId, String customerName,
             String roomNumber, String checkInDate, String checkOutDate,
             double totalAmount, String status) {
