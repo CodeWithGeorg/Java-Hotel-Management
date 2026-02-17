@@ -17,6 +17,7 @@ public class CustomerService {
         JOptionPane.showMessageDialog(null, "Customer checked-in!");
     }
 
+    // Method to view all customers
     public void viewCustomers() {
         StringBuilder sb = new StringBuilder("=== CUSTOMERS ===\n");
         for (Customer c : customers) {
